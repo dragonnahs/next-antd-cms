@@ -12,6 +12,9 @@ module.exports = withPlugin([
   {
     sassOptions: {
       includesPaths: [path.join(__dirname, 'pages')]
+    },
+    devIndicators: {
+      autoPrerender: false,
     }
   }
 ])

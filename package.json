@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "build": "next build && npm start",
-    "start": "NODE_ENV=prodution PORT=3005 node server.js"
+    "start": "cross-env NODE_ENV=prodution PORT=3005 node server.js"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
@@ -13,6 +13,7 @@
     "antd": "^4.4.0",
     "babel-plugin-import": "^1.13.0",
     "cookie-parser": "^1.4.5",
+    "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "js-cookie": "^2.2.1",
     "next": "9.4.4",
