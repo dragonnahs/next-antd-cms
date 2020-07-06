@@ -1,11 +1,15 @@
 import Router from 'next/router'
-import React, {useEffect} from 'react'
+import React from 'react'
 
-function Index(props) {
-  useEffect(() => {
-    Router.push('/cms/home')
-  })
-  return (<div></div>)
+class Index extends React.Component{
+  componentDidMount(){
+    Router.push({pathname: '/cms/home'})
+  }
+  render(){
+    return (
+      <div></div>
+    )
+  }
 }
 
 export default Index

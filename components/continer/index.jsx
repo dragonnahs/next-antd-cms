@@ -18,7 +18,7 @@ class MContainer extends React.Component{
           from: router.pathname
         }
       })
-      return
+      return (<div></div>)
     }
     return (<div>
       <Layout>
