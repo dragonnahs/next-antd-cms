@@ -1,17 +1,17 @@
 const path = require('path')
 const withCss = require('@zeit/next-css')
 const withPlugin = require('next-compose-plugins')
-
-if(typeof require !== 'undefined'){
-  require.extensions['.css'] = file => {}
-}
+const withSass = require('@zeit/next-sass')
 
 
 module.exports = withPlugin([
-  withCss({}),
+  withSass({
+    cssModules: true,
+    ...withCss()
+  }),
   {
     sassOptions: {
-      includesPaths: [path.join(__dirname, 'pages')]
+      includePaths: [path.join(__dirname, 'pages')],
     },
     devIndicators: {
       autoPrerender: false,

@@ -1,6 +1,7 @@
-import style from './index.module.css'
+import style from './index.scss'
 
 const Home = () => {
+  console.log(style);
   return (
     <div className={style.home}>
       cms home page

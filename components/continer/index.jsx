@@ -3,6 +3,7 @@ import {withRouter} from 'next/router'
 import cookie from 'js-cookie'
 import LeftSide from '../sider'
 import MineHeader from '../header'
+import Tags from '../tags'
 import {Layout} from 'antd'
 const { Content, Header, Sider } = Layout
 
@@ -29,7 +30,10 @@ class MContainer extends React.Component{
           <Sider width={160}>
             <LeftSide></LeftSide>
           </Sider>
-          <Content>{children}</Content>
+          <Content>
+            <Tags/>
+            {children}
+          </Content>
         </Layout>
       </Layout>
     </div>)
