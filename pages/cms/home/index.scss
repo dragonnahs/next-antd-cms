@@ -1,3 +1,32 @@
 .home{
-  color: red;
+  min-height: 1000px;
+  padding-top: 20px;
+  .info{
+    margin-top: 20px;
+    .info-card{
+      cursor: pointer;
+      &:hover{
+        .info-icon{
+          background: #40c9c6;
+          color: #ffffff !important;
+        }
+      }
+      .info-item{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .info-icon{
+          padding: 10px;
+          color: #40c9c6;
+          transition: all 0.3s ease;
+          border-radius: 5px;
+        }
+        .info-item-number{
+          .info-item-tip{
+            color: #b8b4b4;
+          }
+        }
+      }
+    }
+  }
 }
