@@ -1,9 +1,11 @@
 import React from 'react'
 import App, {Container} from 'next/app'
+import {Provider} from 'react-redux'
+
 import MContainer from '../components/continer'
 import 'antd/dist/antd.css'
-
 import '../static/style/style.css'
+import store from '../store/index'
 
 
 class MyApp extends App{
@@ -24,9 +26,11 @@ class MyApp extends App{
   render() {
     return (
       <Container>
-        {
-          this.renderContent()
-        }
+        <Provider store={store}>
+          {
+            this.renderContent()
+          }
+        </Provider>
       </Container>
     )
   }

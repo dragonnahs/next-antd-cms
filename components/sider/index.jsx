@@ -2,18 +2,26 @@ import React, {Component} from 'react'
 import { Menu } from 'antd'
 import { AreaChartOutlined, PieChartOutlined, LineChartOutlined,TeamOutlined,FileOutlined,AimOutlined } from '@ant-design/icons';
 import {withRouter} from 'next/router'
+import {connect} from 'react-redux'
+import {addTag} from '../../store/tags/action'
 const {SubMenu} = Menu
 
 class LeftSide extends Component{
   constructor(props){
     super(props)
     this.state = {
-      defaultKey: '/cms/home'
+      defaultKey: '/cms/home',
     }
   }
   onSelect(target){
-    console.log(target);
     const {router} = this.props
+    if(target.key === router.pathname){
+      return
+    }
+    this.props.addTag({
+      pathname: target.key,
+      name: target.item.node.innerText
+    })
     router.push({
       pathname: target.key
     })
@@ -24,9 +32,15 @@ class LeftSide extends Component{
       defaultKey: pathname
     })
   }
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      defaultKey: nextProps.router.pathname
+    })
+  }
   render() {
     return (
-      <Menu defaultSelectedKeys={[this.state.defaultKey]}
+      <Menu
+      selectedKeys={[this.state.defaultKey]}
       theme='light'
       mode='inline'
       style={{height: '100%'}}
@@ -52,5 +66,15 @@ class LeftSide extends Component{
     )
   }
 }
+const mapStateToProps = state => {
+  return {
+    ...state.tags
+  }
+}
 
-export default withRouter(LeftSide)
+export default connect(
+  mapStateToProps,
+  {
+    addTag
+  }
+)(withRouter(LeftSide))
