@@ -4,9 +4,9 @@ import { UsergroupDeleteOutlined,
   RadarChartOutlined,
   AliwangwangOutlined } from '@ant-design/icons';
 import style from './index.scss'
+import fetch from '../../../util/fetch'
 
 const Home = () => {
-  console.log(style);
   return (
     <div className={style.home}>
       <Row justify='space-around' className={style.info} gutter={[0, 12]}>

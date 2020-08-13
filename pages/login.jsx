@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import {Layout, Form, Input, Button } from 'antd'
-import cookie from 'js-cookie'
 import {withRouter} from 'next/router'
+import fetch from '../util/fetch'
+
 
 const { Content } = Layout
 const layout = {
@@ -13,12 +14,16 @@ const tailLayout = {
 };
 const Login = (props) => {
   console.log(props);
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     const {router} = props
-    cookie.set('user', values.username)
-    router.push({
-      pathname: router.query.from || '/cms/home'
+    let res = await fetch.post('/v1/h5/adminUser/login', {
+      ...values
     })
+    if(res.code === 200){
+      router.push({
+        pathname: router.query.from || '/cms/home'
+      })
+    }
   }
   const onFinishFailed = (err) => {
     console.log(err);
@@ -39,14 +44,14 @@ const Login = (props) => {
         onFinishFailed={onFinishFailed}>
           <Form.Item
             label="用户名"
-            name="username"
+            name="name"
             rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Input placeholder='请输入用户名' />
           </Form.Item>
           <Form.Item
             label="密码"
-            name="password"
+            name="pwd"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Input.Password placeholder='请输入密码' />

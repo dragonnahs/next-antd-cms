@@ -10,17 +10,7 @@ const { Content, Header, Sider } = Layout
 
 class MContainer extends React.Component{
   renderAuthor() {
-    const {children, router} = this.props
-    if(process.browser && !cookie.get('user')) {
-      console.log(router);
-      router.push({
-        pathname: '/login',
-        query: {
-          from: router.pathname
-        }
-      })
-      return (<div></div>)
-    }
+    const {children} = this.props
     return (<div>
       <Layout>
         <Header style={{height: '8vh'}}>

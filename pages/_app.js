@@ -8,6 +8,7 @@ import '../static/style/style.css'
 import store from '../store/index'
 
 
+
 class MyApp extends App{
   
   renderContent = () => {

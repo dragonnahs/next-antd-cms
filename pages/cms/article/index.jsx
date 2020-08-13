@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table, Tag } from 'antd'
+import { withRouter } from 'next/router'
 import SModal from '../../../components/article/modal'
 import AHeader from '../../../components/article/header'
 
@@ -42,9 +43,11 @@ class Article extends React.Component {
     // if(this.refs.formRef){
     //   this.refs.formRef.resetFields()
     // }
-    this.setState({
-      visible: true,
-    })
+    // this.setState({
+    //   visible: true,
+    // })
+    const {router} = this.props
+    router.push('/cms/article/new_article')
   }
   columns = [
     {
@@ -95,4 +98,4 @@ class Article extends React.Component {
   }
 }
 
-export default Article
+export default withRouter(Article)
