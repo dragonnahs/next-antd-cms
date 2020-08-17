@@ -1,98 +1,123 @@
 import React from 'react'
 import { Table, Tag } from 'antd'
 import { withRouter } from 'next/router'
-import SModal from '../../../components/article/modal'
 import AHeader from '../../../components/article/header'
 
+import fetch from '@/util/fetch'
 
-const data = [
-  {
-    key: 1,
-    name: '盘龙',
-    author: '西红柿',
-    category: '玄幻',
-    nums: 1025
-  },
-  {
-    key: 2,
-    name: '雪鹰领主',
-    author: '西红柿',
-    category: '玄幻',
-    nums: 2158
-  },
-]
 class Article extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      visible: false,
+      articleList: [],
+      pageNum: 1,
+      pageSize: 10,
+      count: 0
     }
   }
-  handleOk = (values) => {
-    console.log(values);
-    this.setState({
-      visible: false
-    })
-  }
-  handleCancel = () => {
-    this.setState({
-      visible: false
-    })
-  }
-  handleEdite = () => {
-    // if(this.refs.formRef){
-    //   this.refs.formRef.resetFields()
-    // }
-    // this.setState({
-    //   visible: true,
-    // })
+  handleEdite = (target) => {
     const {router} = this.props
-    router.push('/cms/article/new_article')
+    if(target){
+      router.push({
+        pathname: '/cms/article/new_article',
+        query: {
+          articleId: target.id
+        }
+      })
+    }else{
+      router.push('/cms/article/new_article')
+    }
   }
   columns = [
     {
       title: '名称',
-      dataIndex: 'name'
-    },
-    {
-      title: '作者',
-      dataIndex: 'author'
+      dataIndex: 'articleName',
+      ellipsis: true,
     },
     {
       title: '分类',
-      dataIndex: 'category'
+      dataIndex: 'categoryName'
     },
     {
-      title: '阅读数',
-      dataIndex: 'nums'
+      title: '描述',
+      dataIndex: 'desc',
+      ellipsis: true
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      align: 'center',
+      render: (value) => {
+        return (
+          <div>{value === 2 ? '已发布': '未发布'}</div>
+        )
+      }
+    },
+    {
+      title: '更新时间',
+      dataIndex: 'updateTime',
+      ellipsis: true
     },
     {
       title: '操作',
       dataIndex: 'handle',
       align: 'center',
-      render: () => {
+      render: (text, record) => {
         return (
           <>
-            <Tag color='blue' onClick={this.handleEdite}>编辑</Tag>
+            <Tag color='blue' onClick={this.handleEdite.bind(this, record)}>编辑</Tag>
             <Tag color='red'>删除</Tag>
           </>
         )
       }
     },
   ]
+
+  async getArticleList(){
+    let res = await fetch.post('/v1/h5/article/list', {
+      pageSize: this.state.pageSize,
+      pageNum: this.state.pageNum
+    })
+    if(res.code === 200){
+      this.setState({
+        articleList: res.data.list,
+        count: res.data.count
+      })
+    }
+  }
+  changePageNum(target){
+    this.setState({
+      pageNum: target
+    }, () => {
+      this.getArticleList()
+    })
+  }
+  componentDidMount(){
+    this.getArticleList()
+  }
+  async searchFun(value){
+    let res = await fetch.post('/v1/h5/article/search', {
+      content: value
+    })
+    console.log(res);
+  }
   
   render(){
     return(
       <div style={{padding: '10px'}}>
-        <AHeader onClick={this.handleEdite}/>
+        <AHeader searchFun={this.searchFun.bind(this)} onClick={this.handleEdite}/>
         <Table 
         columns={this.columns}
-        dataSource={data}
+        rowKey='id'
+        dataSource={this.state.articleList}
+        pagination={{
+          defaultPageSize: 10,
+          total: this.state.count,
+          onChange: (target) => {
+            this.changePageNum.call(this, target)
+          }
+        }}
         bordered></Table>
-        <SModal 
-        visible={this.state.visible}
-        handleOk={this.handleOk}
-        handleCancel={this.handleCancel}/>
       </div>
     )
   }

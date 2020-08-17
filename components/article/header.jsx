@@ -15,7 +15,7 @@ const AHeader = (props) => {
         </Col>
         <Col>
           <Search placeholder='输入搜索内容'
-          onSearch={(value) => {console.log(value);}}
+          onSearch={props.searchFun}
           enterButton/>
         </Col>
       </Row>

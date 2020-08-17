@@ -26,7 +26,7 @@ instance.interceptors.response.use(function(response){
     })
     return res
   }else{
-    return response
+    return res
   }
 }, function(error){
   return Promise.reject(error)
