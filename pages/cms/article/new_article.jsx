@@ -55,7 +55,6 @@ class newArticle extends React.Component{
     }
   }
   async componentWillMount(){
-    console.log(1111,4444);
     await this.getCategoryList()
     this.setState({
       articleId: parseInt(this.props.router.query.articleId)
@@ -64,8 +63,6 @@ class newArticle extends React.Component{
         this.getArticleInfo()
       }
     })
-    
-    
   }
   publishStatusFun(target){
     this.setState({
@@ -141,7 +138,7 @@ class newArticle extends React.Component{
         </div>
         <div className={style.content}>
           {
-            ((this.articleId && this.state.content) || !this.articleId) ? <DynamicEditor content={this.state.content} handleChangeContent={this.handleChangeContent.bind(this)} /> : <div></div>
+            ((this.state.articleId && this.state.content) || !this.state.articleId) ? <DynamicEditor content={this.state.content} handleChangeContent={this.handleChangeContent.bind(this)} /> : <div></div>
           }
         </div>
         <div className={style.handle}>

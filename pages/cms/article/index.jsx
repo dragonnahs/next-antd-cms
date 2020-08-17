@@ -30,6 +30,11 @@ class Article extends React.Component {
   }
   columns = [
     {
+      title: '序号',
+      dataIndex: 'index',
+      align: 'center'
+    },
+    {
       title: '名称',
       dataIndex: 'articleName',
       ellipsis: true,
@@ -72,7 +77,6 @@ class Article extends React.Component {
       }
     },
   ]
-
   async getArticleList(){
     let res = await fetch.post('/v1/h5/article/list', {
       pageSize: this.state.pageSize,
@@ -96,10 +100,24 @@ class Article extends React.Component {
     this.getArticleList()
   }
   async searchFun(value){
-    let res = await fetch.post('/v1/h5/article/search', {
-      content: value
+    this.setState({
+      pageNum: 1
     })
-    console.log(res);
+    if(!value){
+      this.getArticleList()
+    }else{
+      let res = await fetch.post('/v1/h5/article/search', {
+        content: value,
+        pageSize: this.state.pageSize,
+        pageNum: this.state.pageNum
+      })
+      if(res.code === 200){
+        this.setState({
+          articleList: res.data.list,
+          count: res.data.count
+        })
+      }
+    }
   }
   
   render(){
