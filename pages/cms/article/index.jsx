@@ -1,9 +1,19 @@
 import React from 'react'
-import { Table, Tag } from 'antd'
+import { Table, Tag, message } from 'antd'
 import { withRouter } from 'next/router'
 import AHeader from '../../../components/article/header'
+import io from 'socket.io-client'
 
 import fetch from '@/util/fetch'
+
+const socket = io('http://localhost:3000')
+socket.on('connect', () => {
+  console.log('链接成功');
+})
+
+socket.on('disconnect', () => {
+  console.log('关闭连接');
+})
 
 class Article extends React.Component {
   constructor(props){

@@ -1,4 +1,6 @@
+import React, { useState, useEffect } from 'react'
 import {Table, Tag, message} from 'antd'
+import fetch from '@/util/fetch'
 
 
 function handleEditor(){
@@ -7,12 +9,16 @@ function handleEditor(){
 
 const columns = [
   {
+    title: '序号',
+    dataIndex: 'rank'
+  },
+  {
     title: '用户名',
     dataIndex: 'name'
   },
   {
     title: '权限',
-    dataIndex: 'power'
+    dataIndex: 'roleName'
   },
   {
     title: '操作',
@@ -45,12 +51,22 @@ const data = [
     power: 'visitor'
   }
 ]
+
 const User = () => {
+  const [ list, setList ] = useState([])
+  useEffect(() => {
+    async function handleSetList(){
+      const res = await fetch.post('/v1/h5/adminUser/list')
+      setList(res.data.list)
+    }
+    handleSetList()
+  }, [])
   return(
     <div style={{padding: '10px'}}>
       <Table 
       columns={columns}
-      dataSource={data}
+      dataSource={list}
+      rowKey='id'
       bordered
       pagination={false}></Table>
 

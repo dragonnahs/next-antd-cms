@@ -47,7 +47,10 @@ class MineHeader extends Component {
   async componentDidMount(){
     let res = await fetch.get('/v1/h5/adminUser/userInfo')
     if(res.code === 200){
-      this.setState({userInfo: res.data.userInfo})
+      this.setState({userInfo: res.data.userInfo}, () => {
+        this.props.setUserInfo(this.state.userInfo)
+      })
+      
     }
   }
   render() {

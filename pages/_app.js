@@ -1,11 +1,12 @@
 import React from 'react'
 import App, {Container} from 'next/app'
 import {Provider} from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 
 import MContainer from '../components/continer'
 import 'antd/dist/antd.css'
 import '../static/style/style.css'
-import store from '../store/index'
+import createStore from '../store/index'
 
 
 
@@ -25,12 +26,15 @@ class MyApp extends App{
     )
   }
   render() {
+    const { persistor, store } = createStore()
     return (
       <Container>
         <Provider store={store}>
-          {
-            this.renderContent()
-          }
+          <PersistGate persistor={persistor}>
+            {
+              this.renderContent()
+            }
+          </PersistGate>
         </Provider>
       </Container>
     )

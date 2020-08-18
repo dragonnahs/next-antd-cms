@@ -7,6 +7,47 @@ import {connect} from 'react-redux'
 import {addTag} from '../../store/tags/action'
 const {SubMenu} = Menu
 
+
+const list = [
+  {
+    name: '首页',
+    icon: <AimOutlined />,
+    key: '/cms/home'
+  },
+  {
+    name: '文章',
+    icon: <FileOutlined />,
+    key: '/cms/article'
+  },
+  {
+    name: '用户',
+    icon: <TeamOutlined />,
+    key: '/cms/user',
+    permission: 1
+  },
+  {
+    name: '骨架屏',
+    icon: <SlidersFilled />,
+    key: '/cms/skeleton'
+  },
+  {
+    name: '图表',
+    icon: <LineChartOutlined />,
+    key: '/echart',
+    list: [
+      {
+        name: '柱状图',
+        icon: <AreaChartOutlined />,
+        key: '/cms/echarts/bar'
+      },
+      {
+        name: '圆状图',
+        icon: <PieChartOutlined />,
+        key: '/cms/echarts/circle'
+      }
+    ]
+  },
+]
 class LeftSide extends Component{
   constructor(props){
     super(props)
@@ -38,6 +79,29 @@ class LeftSide extends Component{
       defaultKey: nextProps.router.pathname
     })
   }
+  renderList(list){
+    const { userInfo } = this.props
+    return list.map(item => {
+      if(item.permission && userInfo.permission > item.permission){
+        return
+      }
+      if(Array.isArray(item.list) && item.list.length > 0){
+        return (
+          <SubMenu title={item.name} key={item.key} icon={item.icon}>
+            {
+              this.renderList(item.list)
+            }
+          </SubMenu>
+        )
+      }else{
+        return (
+          <Menu.Item key={item.key}>
+            {item.icon}{item.name}
+          </Menu.Item>
+        )
+      }
+    })
+  }
   render() {
     return (
       <Menu
@@ -46,33 +110,17 @@ class LeftSide extends Component{
       mode='inline'
       style={{height: '100%'}}
       onSelect={this.onSelect.bind(this)}>
-        <Menu.Item key='/cms/home'>
-          <AimOutlined />首页
-        </Menu.Item>
-        <Menu.Item key='/cms/article'>
-          <FileOutlined />文章
-        </Menu.Item>
-        <Menu.Item key='/cms/user'>
-          <TeamOutlined />用户
-        </Menu.Item>
-        <Menu.Item key='/cms/skeleton'>
-          <SlidersFilled />骨架屏
-        </Menu.Item>
-        <SubMenu title='图表' key='/echart' icon={<LineChartOutlined />}>
-          <Menu.Item key='/cms/echarts/bar'>
-            <AreaChartOutlined />柱状图
-          </Menu.Item>
-          <Menu.Item key='/cms/echarts/circle'>
-            <PieChartOutlined />圆状图
-          </Menu.Item>
-        </SubMenu>
+        {
+          this.renderList(list)
+        }
       </Menu>
     )
   }
 }
 const mapStateToProps = state => {
   return {
-    ...state.tags
+    ...state.tags,
+    ...state.users
   }
 }
 
