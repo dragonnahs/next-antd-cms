@@ -1,12 +1,24 @@
+import React, { useState, useEffect } from 'react'
 import { Row, Col, Card } from 'antd'
 import { UsergroupDeleteOutlined,
   SnippetsOutlined,
   RadarChartOutlined,
   AliwangwangOutlined } from '@ant-design/icons';
 import style from './index.scss'
-import fetch from '../../../util/fetch'
+import fetch from '@/util/fetch'
 
 const Home = () => {
+  const [ info, setInfo ] = useState({})
+  useEffect(() => {
+    async function getInfo(){
+      let res = await fetch.post('/v1/h5/home/info')
+      console.log(res);
+      if(res.code === 200){
+        setInfo(res.data.info)
+      }
+    }
+    getInfo()
+  }, [])
   return (
     <div className={style.home}>
       <Row justify='space-around' className={style.info} gutter={[0, 12]}>
@@ -17,8 +29,8 @@ const Home = () => {
                 <UsergroupDeleteOutlined style={{fontSize: '40px'}} />
               </div>
               <div className={style['info-item-number']}>
-                <div className={style['info-item-tip']}>Visitors</div>
-                <div>809034</div>
+                <div className={style['info-item-tip']}>用户</div>
+                <div>{info.userCount}</div>
               </div>
             </div>
           </Card>
@@ -30,8 +42,8 @@ const Home = () => {
                 <SnippetsOutlined style={{fontSize: '40px'}} />
               </div>
               <div className={style['info-item-number']}>
-                <div className={style['info-item-tip']}>Contents</div>
-                <div>139268</div>
+                <div className={style['info-item-tip']}>文章</div>
+                <div>{info.articleCount}</div>
               </div>
             </div>
           </Card>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Tag, message } from 'antd'
+import { Table, Tag } from 'antd'
 import { withRouter } from 'next/router'
 import AHeader from '../../../components/article/header'
 import io from 'socket.io-client'

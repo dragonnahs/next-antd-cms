@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Menu } from 'antd'
 import { AreaChartOutlined, PieChartOutlined, LineChartOutlined,TeamOutlined,FileOutlined,AimOutlined,
-  SlidersFilled } from '@ant-design/icons';
+  SlidersFilled, UnorderedListOutlined, FormOutlined } from '@ant-design/icons';
 import {withRouter} from 'next/router'
 import {connect} from 'react-redux'
 import {addTag} from '../../store/tags/action'
@@ -24,6 +24,18 @@ const list = [
     icon: <TeamOutlined />,
     key: '/cms/user',
     permission: 1
+  },
+  {
+    name: '运营配置',
+    icon: <UnorderedListOutlined />,
+    key: '/parameter',
+    list: [
+      {
+        name: 'banner参数配置',
+        icon: <FormOutlined />,
+        key: '/cms/parameter/banner'
+      }
+    ]
   },
   {
     name: '骨架屏',

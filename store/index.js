@@ -1,7 +1,5 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import thunk from 'redux-thunk'
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 
 import tags from './tags/reducer'
 import users from './users/reducer'
@@ -11,15 +9,5 @@ const reducers = combineReducers({
   users
 })
 
-const persistConfig = {
-  key: 'root',
-  storage
-}
 
-const persistedReducer = persistReducer(persistConfig, reducers)
-
-export default () => {
-  let store = createStore(persistedReducer, applyMiddleware(thunk))
-  let persistor = persistStore(store)
-  return { store, persistor }
-}
+export default createStore(reducers, applyMiddleware(thunk))

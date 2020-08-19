@@ -34,23 +34,6 @@ const columns = [
     }
   },
 ]
-const data = [
-  {
-    key: 1,
-    name: '小明',
-    power: 'admin'
-  },
-  {
-    key: 2,
-    name: '李华',
-    power: 'editor'
-  },
-  {
-    key: 3,
-    name: '小白',
-    power: 'visitor'
-  }
-]
 
 const User = () => {
   const [ list, setList ] = useState([])
