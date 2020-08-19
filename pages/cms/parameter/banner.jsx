@@ -8,8 +8,8 @@ import fetch from '@/util/fetch'
 
 
 
-function Banner(){
-  const [ list, setList ] = useState([])
+function Banner(props){
+  const [ list, setList ] = useState(props.list)
   const [ pageNum, setPageNum ] = useState(1)
   const [ visible, setVisible ] = useState(false)
   const [ bannerInfo, setBannerInfo ] = useState({})
@@ -63,10 +63,9 @@ function Banner(){
     },
   ]
   useEffect(() => {
-    getList()
+    // getList()
   }, [])
   function handleEdite(target){
-    console.log(target);
     setVisible(true)
     setBannerInfo(target)
   }
@@ -123,6 +122,16 @@ function Banner(){
       
     </div>
   )
+}
+
+Banner.getInitialProps = async function(){
+  let res = await fetch.post('/v1/h5/banner/list', {
+    pageNum: 1,
+    pageSize: 10
+  })
+  return {
+    list: res.data.list
+  }
 }
 
 

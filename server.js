@@ -3,6 +3,7 @@ const next = require('next')
 const cookieParser = require('cookie-parser')
 const {createProxyMiddleware} = require('http-proxy-middleware')
 
+
 const devProxy = {
   '/v1': {
       target: 'http://localhost:3000', // 端口自己配置合适的
@@ -12,7 +13,6 @@ const devProxy = {
       changeOrigin: true
   }
 }
-
 const dev = process.env.NODE_ENV !== 'production'
 const port = parseInt(process.env.PORT, 10) || 5000
 const app = next({dev})

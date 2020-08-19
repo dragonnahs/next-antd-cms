@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Router from 'next/router'
 
+const idProd = process.env.NODE_ENV === 'production'
 let instance = axios.create({
-  baseURL: '/',
+  baseURL: idProd ? '/' : '/',
   timeout: 1000,
 })
 
